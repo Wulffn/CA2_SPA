@@ -195,7 +195,7 @@ function getPersonByZip() {
             var tableBody = data.persons.map(user => "<tr><td>" + user.firstName + "</td>" +
                 "<td>" + user.lastName + "</td>" +
                 "<td>" + user.addresses + "</td>").join("");
-                resultDiv.innerHTML = "<table>" + tableHead + tableBody + "</table>";
+            resultDiv.innerHTML = "<table>" + tableHead + tableBody + "</table>";
         }).catch(err => {
             if (err.status) {
                 err.fullError.then(e => console.log(e))
@@ -212,8 +212,22 @@ function getCountByHobby() {
     const hobby = input.value;
     const totalUrl = mainUrl + "person/count/";
     fetch(totalUrl + hobby)
-        .then(res => res.json())
-        .then(data => console.log(data));
+        .then(res => {
+            if (!res.ok) {
+                return Promise.reject({ status: res.status, fullError: res.json() })
+            }
+            return res.json()
+        })
+        .then(data => {
+            resultDiv.innerHTML = data.hobby.name + ": " + data.count;
+        }).catch(err => {
+            if (err.status) {
+                err.fullError.then(e => console.log(e))
+            }
+            else {
+                console.log("Network error");
+            }
+        });
     input.value = "";
 }
 
