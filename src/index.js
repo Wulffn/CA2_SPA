@@ -5,25 +5,45 @@ var input = document.createElement("input");
 const searchBtn = document.createElement("button");
 const radioDiv = document.createElement("div");
 const resultDiv = document.createElement("div")
+const searchDiv = document.createElement("div");
+const formDiv = document.createElement("div");
+const firstNameInput = document.createElement("input");
+const lastNameInput = document.createElement("input");
+const mailInput = document.createElement("input");
+const addBtn = document.createElement("button");
 
 const mainUrl = "http://localhost:8084/api/";
 
-var radioGroup = ["Persons by Address", "Person by Phone", "Persons by Hobby", "Person by Zip", "Count by Hobby", "Delete Person"];
+var radioGroup = ["Persons by Address", "Person by Phone", "Persons by Hobby", "Person by Zip", "Count by Hobby", "Delete Person", "Add Person"];
 
 radioDiv.innerHTML = generateRadios(radioGroup);
 input.setAttribute("id", "input");
 searchBtn.innerHTML = "Search";
+addBtn.innerHTML = "Add Person";
 radioDiv.addEventListener("click", checkSearchType);
+addBtn.addEventListener("click", createPerson);
+formDiv.style.visibility = "hidden";
+firstNameInput.setAttribute("placeholder", "Firstname");
+lastNameInput.setAttribute("placeholder", "Lastname");
+mailInput.setAttribute("placeholder", "Email");
 
+formDiv.appendChild(firstNameInput);
+formDiv.appendChild(lastNameInput);
+formDiv.appendChild(mailInput);
+formDiv.appendChild(addBtn);
 root.appendChild(radioDiv);
-root.appendChild(input);
-root.appendChild(searchBtn);
-root.appendChild(resultDiv);
+searchDiv.appendChild(input);
+searchDiv.appendChild(searchBtn);
+searchDiv.appendChild(resultDiv);
+root.appendChild(searchDiv);
+root.appendChild(formDiv);
 
 
 function gettingFunction(idString) {
     switch (idString) {
         case "PersonsbyAddress":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Address");
             searchBtn.addEventListener("click", getPersonsByAddress);
@@ -34,6 +54,8 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", deletePersonByPhone);
             break;
         case "PersonbyPhone":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Phone");
             searchBtn.addEventListener("click", getPersonByPhone);
@@ -44,6 +66,8 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", deletePersonByPhone);
             break;
         case "PersonsbyHobby":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Hobby");
             searchBtn.addEventListener("click", getPersonsByHobby);
@@ -54,6 +78,8 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", deletePersonByPhone);
             break;
         case "PersonbyZip":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Zip");
             searchBtn.addEventListener("click", getPersonByZip);
@@ -64,6 +90,8 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", deletePersonByPhone);
             break;
         case "CountbyHobby":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Enter Hobby");
             searchBtn.addEventListener("click", getCountByHobby);
@@ -74,6 +102,8 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", deletePersonByPhone);
             break;
         case "DeletePerson":
+            searchDiv.style.visibility = "visible";
+            formDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Delete";
             input.setAttribute("placeholder", "Enter Phonenumber");
             searchBtn.addEventListener("click", deletePersonByPhone);
@@ -83,22 +113,15 @@ function gettingFunction(idString) {
             searchBtn.removeEventListener("click", getPersonsByAddress);
             searchBtn.removeEventListener("click", getCountByHobby);
             break;
+        case "AddPerson":
+            searchDiv.style.visibility = "hidden";
+            formDiv.style.visibility = "visible";
+            break;
 
     }
 
 }
 
-function clearAllRadios() {
-
-    var radios = document.getElementsByClassName("radios");
-
-    for (let index = 0; index < radios.length; index++) {
-        if (radios[index].checked) {
-
-            document.getElementById(radios[index].id).checked = false;
-        }
-    }
-}
 
 function checkSearchType() {
     var radios = document.getElementsByClassName("radios");
@@ -112,6 +135,7 @@ function checkSearchType() {
     }
 
 }
+
 
 function getPersonsByAddress() {
     const address = input.value;
@@ -130,10 +154,10 @@ function getPersonsByAddress() {
             resultDiv.innerHTML = data.street + ", " + data.zip + ", " + data.city + "<br><table>" + tableBody + "</table>";
         }).catch(err => {
             if (err.status) {
-                err.fullError.then(e => console.log(e))
+                err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
             }
             else {
-                console.log("Network error");
+                resultDiv.innerHTML = "Network Error";
             }
         });
     input.value = "";
@@ -163,10 +187,10 @@ function getPersonByPhone() {
             resultDiv.innerHTML = data.phone + "<br>" + body;
         }).catch(err => {
             if (err.status) {
-                err.fullError.then(e => console.log(e))
+                err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
             }
             else {
-                console.log("Network error");
+                resultDiv.innerHTML = "Network Error";
             }
         });
     input.value = "";
@@ -190,10 +214,10 @@ function getPersonsByHobby() {
             resultDiv.innerHTML = "<table><th>" + tableHead + "</th>" + tableBody + "</table>";
         }).catch(err => {
             if (err.status) {
-                err.fullError.then(e => console.log(e))
+                err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
             }
             else {
-                console.log("Network error");
+                resultDiv.innerHTML = "Network Error";
             }
         });
     input.value = "";
@@ -217,7 +241,7 @@ function getPersonByZip() {
             resultDiv.innerHTML = "<table>" + tableHead + tableBody + "</table>";
         }).catch(err => {
             if (err.status) {
-                err.fullError.then(e => console.log(e))
+                err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
             }
             else {
                 console.log("Network error");
@@ -241,7 +265,7 @@ function getCountByHobby() {
             resultDiv.innerHTML = data.hobby.name + ": " + data.count;
         }).catch(err => {
             if (err.status) {
-                err.fullError.then(e => console.log(e))
+                err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
             }
             else {
                 console.log("Network error");
@@ -270,26 +294,47 @@ function deletePersonByPhone() {
         if (!res.ok) {
             return Promise.reject({ status: res.status, fullError: res.json() })
         }
+        return res.json();
+    }).catch(err => {
+        if (err.status) {
+            err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
+        }
+        else {
+            resultDiv.innerHTML = "Network Error";
+        }
+    });
     input.value = "";
 }
-/*
-function createPerson(){
-    var inputFirstname = document.createElement("input");
-    var inputLastname = document.createElement("input");
-    var input
-    const inputLastName = inputFirstname.value;
 
-    const firstName = ;
-    fetch(totalUrl + person, {
+
+function createPerson() {
+    const firstName = firstNameInput.value;
+    const lastName = lastNameInput.value;
+    const email = mailInput.value;
+    const json = { firstName, lastName, email };
+    const totalUrl = mainUrl + "person";
+    fetch(totalUrl, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=utf-8'
         },
-        body: JSON.stringify(person)
-    }).then(res => res.json());
+        body: JSON.stringify(json)
+    }).then(res => {
+        if (!res.ok) {
+            return Promise.reject({ status: res.status, fullError: res.json() })
+        }
+        return res.json()
+    }).catch(err => {
+        if (err.status) {
+            err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
+        }
+        else {
+            resultDiv.innerHTML = "Network Error";
+        }
+    });
+    firstNameInput.value = "";
+    lastNameInput.value = "";
+    mailInput.value = "";
 }
 
-
-
-*/
