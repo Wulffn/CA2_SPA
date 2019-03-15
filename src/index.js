@@ -7,26 +7,88 @@ const radioDiv = document.createElement("div");
 const resultDiv = document.createElement("div")
 const searchDiv = document.createElement("div");
 const formDiv = document.createElement("div");
+const editFormDiv = document.createElement("div");
 const firstNameInput = document.createElement("input");
 const lastNameInput = document.createElement("input");
 const mailInput = document.createElement("input");
+const numberInput = document.createElement("input");
+const phoneDescInput = document.createElement("input");
+const streetInput = document.createElement("input");
+const cityInput = document.createElement("input");
+const zipInput = document.createElement("input");
+const hobbyNameInput = document.createElement("input");
+const hobbyDescInput = document.createElement("input");
+const targetPhoneInput = document.createElement("input");
+const efirstNameInput = document.createElement("input");
+const elastNameInput = document.createElement("input");
+const emailInput = document.createElement("input");
+const enumberInput = document.createElement("input");
+const ephoneDescInput = document.createElement("input");
+const estreetInput = document.createElement("input");
+const ecityInput = document.createElement("input");
+const ezipInput = document.createElement("input");
+const ehobbyNameInput = document.createElement("input");
+const ehobbyDescInput = document.createElement("input");
 const addBtn = document.createElement("button");
+const editBtn = document.createElement("button");
 
 const mainUrl = "http://localhost:8084/api/";
 
-var radioGroup = ["Persons by Address", "Person by Phone", "Persons by Hobby", "Person by Zip", "Count by Hobby", "Delete Person", "Add Person"];
+var radioGroup = ["Persons by Address", "Person by Phone", "Persons by Hobby", "Person by Zip", "Count by Hobby", "Delete Person", "Add Person", "Edit Person"];
 
 radioDiv.innerHTML = generateRadios(radioGroup);
 input.setAttribute("id", "input");
 searchBtn.innerHTML = "Search";
 addBtn.innerHTML = "Add Person";
+editBtn.innerHTML = "Edit Person";
 radioDiv.addEventListener("click", checkSearchType);
 addBtn.addEventListener("click", createPerson);
+editBtn.addEventListener("click", editPerson);
 formDiv.style.visibility = "hidden";
+editFormDiv.style.visibility = "hidden";
 firstNameInput.setAttribute("placeholder", "Firstname");
 lastNameInput.setAttribute("placeholder", "Lastname");
 mailInput.setAttribute("placeholder", "Email");
+numberInput.setAttribute("placeholder", "Phone Number");
+phoneDescInput.setAttribute("placeholder", "Phone Description");
+streetInput.setAttribute("placeholder", "Street");
+cityInput.setAttribute("placeholder", "City");
+zipInput.setAttribute("placeholder", "Zip Code");
+hobbyNameInput.setAttribute("placeholder", "Hobby Name");
+hobbyDescInput.setAttribute("placeholder", "Hobby Description");
+targetPhoneInput.setAttribute("placeholder", "Phone of person to Change")
+efirstNameInput.setAttribute("placeholder", "Firstname");
+elastNameInput.setAttribute("placeholder", "Lastname");
+emailInput.setAttribute("placeholder", "Email");
+enumberInput.setAttribute("placeholder", "Phone Number");
+ephoneDescInput.setAttribute("placeholder", "Phone Description");
+estreetInput.setAttribute("placeholder", "Street");
+ecityInput.setAttribute("placeholder", "City");
+ezipInput.setAttribute("placeholder", "Zip Code");
+ehobbyNameInput.setAttribute("placeholder", "Hobby Name");
+ehobbyDescInput.setAttribute("placeholder", "Hobby Description");
 
+editFormDiv.appendChild(targetPhoneInput);
+editFormDiv.appendChild(enumberInput);
+editFormDiv.appendChild(ephoneDescInput);
+editFormDiv.appendChild(estreetInput);
+editFormDiv.appendChild(ecityInput);
+editFormDiv.appendChild(ezipInput);
+editFormDiv.appendChild(ehobbyNameInput);
+editFormDiv.appendChild(ehobbyDescInput);
+editFormDiv.appendChild(efirstNameInput);
+editFormDiv.appendChild(elastNameInput);
+editFormDiv.appendChild(emailInput);
+editFormDiv.appendChild(editBtn);
+
+
+formDiv.appendChild(numberInput);
+formDiv.appendChild(phoneDescInput);
+formDiv.appendChild(streetInput);
+formDiv.appendChild(cityInput);
+formDiv.appendChild(zipInput);
+formDiv.appendChild(hobbyNameInput);
+formDiv.appendChild(hobbyDescInput);
 formDiv.appendChild(firstNameInput);
 formDiv.appendChild(lastNameInput);
 formDiv.appendChild(mailInput);
@@ -37,6 +99,7 @@ searchDiv.appendChild(searchBtn);
 searchDiv.appendChild(resultDiv);
 root.appendChild(searchDiv);
 root.appendChild(formDiv);
+root.appendChild(editFormDiv);
 
 
 function gettingFunction(idString) {
@@ -44,6 +107,7 @@ function gettingFunction(idString) {
         case "PersonsbyAddress":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Address");
             searchBtn.addEventListener("click", getPersonsByAddress);
@@ -56,6 +120,7 @@ function gettingFunction(idString) {
         case "PersonbyPhone":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Phone");
             searchBtn.addEventListener("click", getPersonByPhone);
@@ -68,6 +133,7 @@ function gettingFunction(idString) {
         case "PersonsbyHobby":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Hobby");
             searchBtn.addEventListener("click", getPersonsByHobby);
@@ -80,6 +146,7 @@ function gettingFunction(idString) {
         case "PersonbyZip":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Search Zip");
             searchBtn.addEventListener("click", getPersonByZip);
@@ -92,6 +159,7 @@ function gettingFunction(idString) {
         case "CountbyHobby":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Search";
             input.setAttribute("placeholder", "Enter Hobby");
             searchBtn.addEventListener("click", getCountByHobby);
@@ -104,6 +172,7 @@ function gettingFunction(idString) {
         case "DeletePerson":
             searchDiv.style.visibility = "visible";
             formDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             searchBtn.innerHTML = "Delete";
             input.setAttribute("placeholder", "Enter Phonenumber");
             searchBtn.addEventListener("click", deletePersonByPhone);
@@ -115,9 +184,15 @@ function gettingFunction(idString) {
             break;
         case "AddPerson":
             searchDiv.style.visibility = "hidden";
+            editFormDiv.style.visibility = "hidden";
             formDiv.style.visibility = "visible";
             break;
-
+        case "EditPerson":
+            searchDiv.style.visibility = "hidden";
+            formDiv.style.visibility = "hidden"
+            editFormDiv.style.visibility = "visible";
+        
+            break;  
     }
 
 }
@@ -311,6 +386,13 @@ function createPerson() {
     const firstName = firstNameInput.value;
     const lastName = lastNameInput.value;
     const email = mailInput.value;
+    const number = numberInput;
+    const phonedesc = phoneDescInput;
+    const street = streetInput;
+    const city = cityInput;
+    const zip = zipInput;
+    const hobbyName = hobbyNameInput;
+    const hobbyDesc = hobbyDescInput;
     const json = { firstName, lastName, email };
     const totalUrl = mainUrl + "person";
     fetch(totalUrl, {
@@ -336,5 +418,59 @@ function createPerson() {
     firstNameInput.value = "";
     lastNameInput.value = "";
     mailInput.value = "";
+    number.value = "";
+    phonedesc.value ="";
+    street.value = "";
+    city.value = "";
+    zip.value = "";
+    hobbyName.value = "";
+    hobbyDesc.value ="";
+}
+
+function editPerson() {
+    const targetPhone = targetPhoneInput.value;
+    const firstName = firstNameInput.value;
+    const lastName = lastNameInput.value;
+    const email = mailInput.value;
+    const number = numberInput;
+    const phonedesc = phoneDescInput;
+    const street = streetInput;
+    const city = cityInput;
+    const zip = zipInput;
+    const hobbyName = hobbyNameInput;
+    const hobbyDesc = hobbyDescInput;
+    const json = { firstName, lastName, email };
+    const totalUrl = mainUrl + "person/phone/" + targetPhone;
+    fetch(totalUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(json)
+    }).then(res => {
+        if (!res.ok) {
+            return Promise.reject({ status: res.status, fullError: res.json() })
+        }
+        return res.json()
+    }).catch(err => {
+        if (err.status) {
+            err.fullError.then(e => resultDiv.innerHTML = e.detailMessage)
+        }
+        else {
+            resultDiv.innerHTML = "Network Error";
+        }
+    });
+    firstNameInput.value = "";
+    lastNameInput.value = "";
+    mailInput.value = "";
+    number.value = "";
+    phonedesc.value ="";
+    street.value = "";
+    city.value = "";
+    zip.value = "";
+    hobbyName.value = "";
+    hobbyDesc.value ="";
+    targetPhone.value = "";
 }
 
