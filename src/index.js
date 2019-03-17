@@ -32,7 +32,7 @@ const ehobbyDescInput = document.createElement("input");
 const addBtn = document.createElement("button");
 const editBtn = document.createElement("button");
 
-const mainUrl = "http://localhost:8084/api/";
+const mainUrl = "https://www.wulffn.com/CA2F19-1/api/";
 
 var radioGroup = ["Persons by Address", "Person by Phone", "Persons by Hobby", "Person by Zip", "Count by Hobby", "Delete Person", "Add Person", "Edit Person"];
 
@@ -442,7 +442,7 @@ function editPerson() {
     const json = { firstName, lastName, email };
     const totalUrl = mainUrl + "person/phone/" + targetPhone;
     fetch(totalUrl, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=utf-8'
@@ -471,6 +471,5 @@ function editPerson() {
     zip.value = "";
     hobbyName.value = "";
     hobbyDesc.value ="";
-    targetPhone.value = "";
 }
 
