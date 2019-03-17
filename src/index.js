@@ -386,14 +386,16 @@ function createPerson() {
     const firstName = firstNameInput.value;
     const lastName = lastNameInput.value;
     const email = mailInput.value;
-    const number = numberInput;
-    const phonedesc = phoneDescInput;
-    const street = streetInput;
-    const city = cityInput;
-    const zip = zipInput;
-    const hobbyName = hobbyNameInput;
-    const hobbyDesc = hobbyDescInput;
-    const json = { firstName, lastName, email };
+    const phones = [{"number": numberInput.value}, {"description": phoneDescInput.value}];
+    // const number = numberInput;
+    // const phonedesc = phoneDescInput;
+    const street = streetInput.value;
+    const city = cityInput.value;
+    const zip = zipInput.value;
+    const hobbies = [{"name": hobbyNameInput.value}, {"description": hobbyDescInput.value}];
+    // const hobbyName = hobbyNameInput;
+    // const hobbyDesc = hobbyDescInput;
+    const json = {firstName, lastName, email, phones, street, city, zip, hobbies};
     const totalUrl = mainUrl + "person";
     fetch(totalUrl, {
         method: 'POST',
@@ -429,17 +431,19 @@ function createPerson() {
 
 function editPerson() {
     const targetPhone = targetPhoneInput.value;
-    const firstName = firstNameInput.value;
-    const lastName = lastNameInput.value;
-    const email = mailInput.value;
-    const number = numberInput;
-    const phonedesc = phoneDescInput;
-    const street = streetInput;
-    const city = cityInput;
-    const zip = zipInput;
-    const hobbyName = hobbyNameInput;
-    const hobbyDesc = hobbyDescInput;
-    const json = { firstName, lastName, email };
+    const firstName = efirstNameInput.value;
+    const lastName = elastNameInput.value;
+    const email = emailInput.value;
+    const phones = [{"number": enumberInput.value}, {"description": ephoneDescInput.value}];
+    // const number = numberInput;
+    // const phonedesc = phoneDescInput;
+    const street = estreetInput.value;
+    const city = ecityInput.value;
+    const zip = ezipInput.value;
+    const hobbies = [{"name": ehobbyNameInput.value}, {"description": ehobbyDescInput.value}];
+    // const hobbyName = hobbyNameInput;
+    // const hobbyDesc = hobbyDescInput;
+    const json = {firstName, lastName, email, phones, street, city, zip, hobbies};
     const totalUrl = mainUrl + "person/phone/" + targetPhone;
     fetch(totalUrl, {
         method: 'PUT',
